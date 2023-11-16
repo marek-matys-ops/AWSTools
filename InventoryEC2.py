@@ -6,9 +6,9 @@ import csv
 """
 To run it run AWS CloudShell, upload this file and run it with command: 
 
-python3 inventory.py
+python3 inventoryEC2.py
 
-Download using CloudShell -> Actions -> Download file ( put: output.csv )
+Download using CloudShell -> Actions -> Download file ( put: outputE2-accountID.csv )
 """
 
 client = boto3.client('account')
