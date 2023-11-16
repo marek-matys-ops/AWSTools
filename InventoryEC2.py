@@ -43,13 +43,13 @@ for iter in range(0, len(allRegions)):
 	#		securityGroupsList.append(i['GroupId'])
 		dict['instanceIP'] = instance['Instances'][0]['PublicIpAddress']		
 		instanceTags = instance['Instances'][0]['Tags']
-		instanceTagsList = []
+		instanceTagsList = []		
+		dict['instanceName'] = 'NoName'
 		for i in instanceTags:
 			if i['Key'] == 'Name':
 				dict['instanceName'] = i['Value']
-			else:
-				dict['instanceName'] = 'NoName'
-			dict['instanceTagsList'] = instanceTagsList.append(i['Key']+":"+i['Value'])
+			instanceTagsList.append(i['Key']+":"+i['Value'])
+		dict['instanceTagsList'] = instanceTagsList
 		dict['region'] = allRegions[iter]
 		dict['accountID'] = accountID
 		dictArr.append(dict)
@@ -60,6 +60,7 @@ out_filename = "outputEC2.csv"
 
 with open(out_filename, "w") as csv_file:
 	writer = csv.DictWriter(csv_file, fieldnames = ["instanceId","instanceType","amiId","securityGroups","instanceIP","instanceName","instanceTagsList","region","accountID"])
-	
+
+	writer.writeheader()	
 	for iter in dictArr:
 		writer.writerow(iter)
