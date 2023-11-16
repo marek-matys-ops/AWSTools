@@ -60,6 +60,7 @@ if dictArr == []:
 	print("No instances found")
 	exit()
 
+
 out_filename = "outputEC2-"+accountID+".csv"
 
 with open(out_filename, "w") as csv_file:
