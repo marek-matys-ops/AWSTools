@@ -56,6 +56,10 @@ for iter in range(0, len(allRegions)):
 
 print(dictArr)    
 
+if dictArr == []:
+	print("No instances found")
+	exit()
+
 out_filename = "outputEC2.csv"
 
 with open(out_filename, "w") as csv_file:
