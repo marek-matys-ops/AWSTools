@@ -60,7 +60,7 @@ if dictArr == []:
 	print("No instances found")
 	exit()
 
-out_filename = "outputEC2.csv"
+out_filename = "outputEC2"+accountID+".csv"
 
 with open(out_filename, "w") as csv_file:
 	writer = csv.DictWriter(csv_file, fieldnames = ["instanceId","instanceType","amiId","securityGroups","instanceIP","instanceName","instanceTagsList","region","accountID"])
