@@ -41,7 +41,10 @@ for iter in range(0, len(allRegions)):
 		#securityGroupsList = []
 		#for i in securityGroups:
 	#		securityGroupsList.append(i['GroupId'])
-		dict['instanceIP'] = instance['Instances'][0]['PublicIpAddress']		
+		try:
+			dict['instanceIP'] = instance['Instances'][0]['PublicIpAddress']		
+		except:
+			dict['instanceIP'] = 'NoIP'
 		instanceTags = instance['Instances'][0]['Tags']
 		instanceTagsList = []		
 		dict['instanceName'] = 'NoName'
