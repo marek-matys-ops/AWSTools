@@ -17,8 +17,6 @@ allRegions = []
 for i in response['Regions']:
 	allRegions.append(i['RegionName'])
 
-
-dictArr = []
 dict = {}
 
 for iter in range(0, len(allRegions)):	
