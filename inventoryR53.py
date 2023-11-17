@@ -12,7 +12,7 @@ client = boto3.client('sts')
 response = client.get_caller_identity()
 accountID = response['Account']
 
-dictArr = {}
+dictArr = []
 
 client = boto3.client('route53', region_name='us-east-1')
 response = client.list_hosted_zones()
