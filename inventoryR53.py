@@ -22,7 +22,7 @@ for i in response['HostedZones']:
     dict['Id'] = i['Id']
     dict['Name'] = i['Name']
     dict['ResourceRecordSetCount'] = i['ResourceRecordSetCount']
-    dict['IS_PRIVATE'] = i['Config'][0]['PrivateZone']
+    dict['IS_PRIVATE'] = i['Config']['PrivateZone']
     dict['Type'] = 'HostedZone'
     dict['AccountID'] = accountID
     dictArr.append(dict)
