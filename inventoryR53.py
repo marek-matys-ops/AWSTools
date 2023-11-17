@@ -25,6 +25,9 @@ for i in response['HostedZones']:
     dict['IS_PRIVATE'] = i['Config']['PrivateZone']
     dict['Type'] = 'HostedZone'
     dict['AccountID'] = accountID
+    dict['DomainName'] = ''
+    dict['AutoRenew'] = ''
+    dict['Expiry'] = ''
     dictArr.append(dict)
 
 client = boto3.client('route53domains',region_name='us-east-1')
@@ -32,6 +35,10 @@ response = client.list_domains()
 
 for i in response['Domains']:
     dict = {}
+    dict['Id'] = ''
+    dict['Name'] = ''
+    dict['ResourceRecordSetCount'] = ''
+    dict['IS_PRIVATE'] = ''
     dict['Type'] = 'Domain'
     dict['DomainName'] = i['DomainName']
     dict['AutoRenew'] = i['AutoRenew']
