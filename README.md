@@ -18,4 +18,4 @@ python3 inventory.py
 ### inventoryEC2
 Script to collect the EC2 basic inventory from all available regions. Output is a CSV table ( comma separated). Should be run via AWS Cloud Shell.
 Run:
-python3 inventory.py
+python3 inventoryEC2.py
