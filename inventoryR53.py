@@ -19,15 +19,13 @@ response = client.list_hosted_zones()
 
 for i in response['HostedZones']:
     dict = {}
-    dict['Id'] = i['Id']
+    dict['Type'] = 'HostedZone'
     dict['Name'] = i['Name']
     dict['ResourceRecordSetCount'] = i['ResourceRecordSetCount']
-    dict['IS_PRIVATE'] = i['Config']['PrivateZone']
-    dict['Type'] = 'HostedZone'
-    dict['AccountID'] = accountID
-    dict['DomainName'] = ''
+    dict['IS_PRIVATE'] = i['Config']['PrivateZone']        
     dict['AutoRenew'] = ''
     dict['Expiry'] = ''
+    dict['AccountID'] = accountID
     dictArr.append(dict)
 
 client = boto3.client('route53domains',region_name='us-east-1')
@@ -35,15 +33,13 @@ response = client.list_domains()
 
 for i in response['Domains']:
     dict = {}
-    dict['Id'] = ''
-    dict['AccountID'] = accountID
-    dict['Name'] = ''
-    dict['ResourceRecordSetCount'] = ''
-    dict['IS_PRIVATE'] = ''
     dict['Type'] = 'Domain'
-    dict['DomainName'] = i['DomainName']
+    dict['Name'] = i['DomainName']            
+    dict['ResourceRecordSetCount'] = ''
+    dict['IS_PRIVATE'] = ''        
     dict['AutoRenew'] = i['AutoRenew']
-    dict['Expiry'] = i['Expiry']    
+    dict['Expiry'] = i['Expiry'] 
+    dict['AccountID'] = accountID
     dictArr.append(dict)
 
 with open("outputR53-"+accountID+".csv", "w") as csv_file:
