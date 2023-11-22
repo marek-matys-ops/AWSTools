@@ -164,11 +164,11 @@ for iter in range(0, len(allRegions)):
 	dict['SNS'].append(len(response['Subscriptions']))
 
 	if iter == 0:
-		client = boto3.client('cloudfront',region_name=allRegions[iter])
+		client = boto3.client('cloudfront',region_name='us-east-1')
 		response = client.list_distributions()
-		dict['CLOUDFRONT'] = [len(response['DistributionList'])]
+		dict['CLOUDFRONT'] = [len(response['DistributionList']['Quantity'])]
 	dict['CLOUDFRONT'].append(0)
-        
+
 print(dict)
 
 out_filename = "output.csv"
