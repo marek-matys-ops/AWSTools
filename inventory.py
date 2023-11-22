@@ -166,7 +166,7 @@ for iter in range(0, len(allRegions)):
 	if iter == 0:
 		client = boto3.client('cloudfront',region_name='us-east-1')
 		response = client.list_distributions()
-		dict['CLOUDFRONT'] = [len(response['DistributionList']['Quantity'])]
+		dict['CLOUDFRONT'] = [response['DistributionList']['Quantity']]
 	dict['CLOUDFRONT'].append(0)
 
 print(dict)
