@@ -27,7 +27,7 @@ client = boto3.client('s3')
 s3namesArr = []
 s3regionsArr = []
 response = client.list_buckets()
-dict['S3'] = [len(client.list_buckets())['Buckets']]
+dict['S3'] = [len(response['Buckets'])]
 for i in response['Buckets']:
 	s3namesArr.append(i['Name'])
 for i in s3namesArr:
