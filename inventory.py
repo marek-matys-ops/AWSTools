@@ -11,13 +11,33 @@ python3 inventory.py
 Download using CloudShell -> Actions -> Download file ( put: output.csv )
 """
 
+dict = {}
+
+###################### Account ######################
+
 clientAccount = boto3.client('account')
 response = clientAccount.list_regions(RegionOptStatusContains=['ENABLED','ENABLED_BY_DEFAULT'])
 allRegions = []
 for i in response['Regions']:
 	allRegions.append(i['RegionName'])
 
-dict = {}
+################# S3 ######################
+
+client = boto3.client('s3')
+s3namesArr = []
+s3regionsArr = []
+response = client.list_buckets()
+dict['S3'] = [len(client.list_buckets())['Buckets']]
+for i in response['Buckets']:
+	s3namesArr.append(i['Name'])
+for i in s3namesArr:
+	location = client.get_bucket_location(Bucket=s3namesArr[i])['LocationConstraint']
+	if location == None:
+		s3regionsArr.append('us-east-1')
+	else:
+		s3regionsArr.append(location)
+
+################ Iteration ############################
 
 for iter in range(0, len(allRegions)):	
 	client = boto3.client('ec2',region_name=allRegions[iter])			
@@ -98,11 +118,23 @@ for iter in range(0, len(allRegions)):
 	else:
 		dict['COGNITO-idp'].append('N/A')
 
-	if iter == 0:
-		client = boto3.client('s3')
-		response = client.list_buckets()
-		dict['S3'] = [len(response['Buckets'])]	
-	dict['S3'].append(0)
+    ################ S3 ######################
+
+	dict['S3'].append(s3regionsArr.count(allRegions[iter]))
+
+	################# CloudWatch ######################
+
+
+	################# CloudTrail ######################
+
+
+	################# CloudFormation ######################
+
+
+	################# CloudFront ######################
+
+
+	################# Elastic Container Service ######################
 
 	client = boto3.client('ecs',region_name=allRegions[iter])
 	response = client.list_clusters()
