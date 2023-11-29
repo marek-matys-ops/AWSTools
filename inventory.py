@@ -31,7 +31,7 @@ dict['S3'] = [len(response['Buckets'])]
 for i in response['Buckets']:
 	s3namesArr.append(i['Name'])
 for i in s3namesArr:
-	location = client.get_bucket_location(Bucket=s3namesArr[i])['LocationConstraint']
+	location = client.get_bucket_location(Bucket=i)['LocationConstraint']
 	if location == None:
 		s3regionsArr.append('us-east-1')
 	else:
