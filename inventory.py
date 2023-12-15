@@ -190,10 +190,10 @@ for iter in range(0, len(allRegions)):
 	dict['SECRETSMANAGER'].append(len(response['SecretList']))
 
 	client = boto3.client('sns',region_name=allRegions[iter])
-	response = client.list_subscriptions()
+	response = client.list_topics()
 	if iter == 0:
 		dict['SNS'] = [0]
-	dict['SNS'].append(len(response['Subscriptions']))
+	dict['SNS'].append(len(response['Topics']))
 
 	if iter == 0:
 		client = boto3.client('cloudfront',region_name='us-east-1')
