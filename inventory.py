@@ -88,7 +88,7 @@ services = [
 	# ["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	# ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
 	# ["sns", "SNS", "list_topics()", False, "Topics"],
-	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList][Quantity]"],
+	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "[DistributionList][Quantity]"],
 ]  	
 
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_name):
