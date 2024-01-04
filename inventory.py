@@ -251,7 +251,7 @@ services = [
 	["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
 	["sns", "SNS", "list_topics()", False, "Topics"],
-	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList"],
+	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList[Quantity]"],
 ]  	
 
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_name):
@@ -261,8 +261,12 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 	else:
 		if is_global:
 			client = get_client(service_name, "us-east-1")
-		try:
-			response = eval("client." + method_to_invoke)
+		try:						
+			try:
+				response = eval("client." + method_to_invoke)
+			except:
+				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")			
+			
 			if response_name in response:
 				count = len(response[response_name])
 			else:
