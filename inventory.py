@@ -135,3 +135,5 @@ if __name__ == "__main__":
 		logging.info("Main    : thread %d done", index)
 
 print(dict)
+print(dict['CLOUDFRONT'])
+
