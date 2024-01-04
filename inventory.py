@@ -95,8 +95,8 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 	if client == None:
 		return 0
 	else:
-		if is_global:
-			client = get_client(service_name, "us-east-1")
+		#if is_global:
+		#	client = get_client(service_name, "us-east-1")
 		try:						
 			try:
 				response = eval("client." + method_to_invoke)
@@ -119,7 +119,11 @@ if __name__ == "__main__":
 	for index, service in enumerate(services):
 		logging.info("Main    : create and start thread %d.", index)		
 		for region in allRegions:
-			x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4]))
+			if service[3] == True:
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4]))
+				break
+			else:
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4]))
 			threads.append(x)
 			x.start()
 
