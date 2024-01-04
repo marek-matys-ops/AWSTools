@@ -228,6 +228,7 @@ def get_client(service_name,region_name):
 		return None
 # service_name, Region, is_global, response_name
 services = [
+	'''
 	["ec2", "EC2", "describe_instances()", False, "Reservations"],
 	["s3", "S3", "list_buckets()", False, "Buckets"],
 	["vpc", "VPC", "describe_vpcs()", False, "Vpcs"],
@@ -247,10 +248,11 @@ services = [
 	["elbv2", "ELBv2", "describe_load_balancers()", False, "LoadBalancers"],
 	["elbeanstalk-env", "ELBEANSTALK-env", "describe_environments()", False, "Environments"],
 	["elbeanstalk-app", "ELBEANSTALK-app", "describe_applications()", False, "Applications"],
-	["kms", "KMS", "list_keys()", False, "Keys"],
+	["kms", "KMS", "list_keys()", False, "Keys"],	
 	["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
 	["sns", "SNS", "list_topics()", False, "Topics"],
+	'''
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList[Quantity]"],
 ]  	
 
