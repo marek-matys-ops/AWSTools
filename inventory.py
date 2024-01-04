@@ -15,7 +15,7 @@ Download using CloudShell -> Actions -> Download file ( put: output.csv )
 """
 
 # Configure logging
-#logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(asctime)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(asctime)s: %(message)s')
 
 dict = {}
 
