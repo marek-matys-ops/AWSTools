@@ -111,7 +111,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			dict[common_name] = {region_name: count}
 			return count
 		except:
-			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
+			logging.info("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
 			return 0		
 
 if __name__ == "__main__":
@@ -135,5 +135,5 @@ if __name__ == "__main__":
 		logging.info("Main    : thread %d done", index)
 
 print(dict)
-print(dict['CLOUDFRONT'])
+
 
