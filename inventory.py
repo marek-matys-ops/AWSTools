@@ -65,16 +65,16 @@ def get_client(service_name,region_name):
 		return None
 # service_name, Region, is_global, response_name
 services = [	
-	# ["ec2", "EC2", "describe_instances()", False, "Reservations"],
+	["ec2", "EC2-Instances", "describe_instances()", False, "Reservations"],
 	# ["s3", "S3", "list_buckets()", False, "Buckets"],
-	# ["vpc", "VPC", "describe_vpcs()", False, "Vpcs"],
-	# ["vpn", "VPN", "describe_vpn_connections()", False, "VpnConnections"],
-	# ["subnet", "SUBNETS", "describe_subnets()", False, "Subnets"],
-	# ["sg", "SG", "describe_security_groups()", False, "SecurityGroups"],
+	["ec2", "EC2-VPC", "describe_vpcs()", False, "Vpcs"],
+	["ec2", "EC2-VPN", "describe_vpn_connections()", False, "VpnConnections"],
+	["ec2", "EC2-SUBNETS", "describe_subnets()", False, "Subnets"],
+	["ec2", "EC2-SG", "describe_security_groups()", False, "SecurityGroups"],
 	# ["r53", "R53", "get_hosted_zone_count()", True, "HostedZoneCount"],
 	# ["acm", "ACM", "list_certificates()", False, "CertificateSummaryList"],
-	#  ["apigw_http", "API_GW_HTTP", "get_apis()", False, "Items",None],
-	#  ["apigw_edge", "API_GW_EDGE", "get_rest_apis()", False, "items",None],
+	["apigatewayv2", "API_GW_HTTP", "get_apis()", False, "Items",None],
+	["apigateway", "API_GW_EDGE", "get_rest_apis()", False, "items",None],
 	#  ["lambda", "LAMBDA", "list_functions()", False, "Functions",None],
 	["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", False, "IdentityPools",None],
 	["cognito-idp", "COGNITO-idp", "list_user_pools(MaxResults=60)", False, "UserPools",None],
@@ -82,8 +82,8 @@ services = [
 	["ecr", "ECR", "describe_repositories()", False, "repositories",None],
 	["elb", "ELB", "describe_load_balancers()", False, "LoadBalancerDescriptions",None],
 	["elbv2", "ELBv2", "describe_load_balancers()", False, "LoadBalancers",None],
-	["elbeanstalk-env", "ELBEANSTALK-env", "describe_environments()", False, "Environments",None],
-	["elbeanstalk-app", "ELBEANSTALK-app", "describe_applications()", False, "Applications",None],
+	["elbeanstalk", "ELBEANSTALK-env", "describe_environments()", False, "Environments",None],
+	["elbeanstalk", "ELBEANSTALK-app", "describe_applications()", False, "Applications",None],
 	["kms", "KMS", "list_keys()", False, "Keys",None],	
 	["rds", "RDS", "describe_db_instances()", False, "DBInstances",None],
 	["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList",None],
@@ -94,7 +94,7 @@ services = [
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None):
 	client = get_client(service_name,region_name)
 	if client == None:
-		dict[service_name].update({region_name:"N/A"})
+		dict[common_name].update({region_name:"N/A"})
 		#dict[service_name]['Global-Total'] += count
 	else:		
 		try:						
@@ -109,8 +109,8 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = len(response[response_1level])
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
-			dict[service_name].update({region_name:count})
-			dict[service_name]['Global-Total'] += count
+			dict[common_name].update({region_name:count})
+			dict[common_name]['Global-Total'] += count
 			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
 		logging.debug("Main    : create and start thread %d.", index)		
-		dict[service[0]] = {'ServiceName':service[1],'Global-Total':0}		
+		dict[service[1]] = {'ServiceName':service[1],'Global-Total':0}		
 		for region in allRegions:
 			if service[3] == True:
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
