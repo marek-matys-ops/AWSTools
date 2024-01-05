@@ -63,10 +63,9 @@ def get_client(service_name,region_name):
 		return boto3.client(service_name,region_name=region_name)
 	except:
 		return None
-# service_name, Region, is_global, response_name
 services = [	
 	["ec2", "EC2-Instances", "describe_instances()", False, "Reservations",None],
-	# ["s3", "S3", "list_buckets()", False, "Buckets"],
+	["s3", "S3", "list_buckets()", False, "Buckets",None],
 	["ec2", "EC2-VPC", "describe_vpcs()", False, "Vpcs",None],
 	["ec2", "EC2-VPN", "describe_vpn_connections()", False, "VpnConnections",None],
 	["ec2", "EC2-SUBNETS", "describe_subnets()", False, "Subnets",None],
@@ -94,15 +93,14 @@ services = [
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None):
 	client = get_client(service_name,region_name)
 	if client == None:
-		dict[common_name].update({region_name:"N/A"})
-		#dict[service_name]['Global-Total'] += count
+		dict[common_name].update({region_name:"N/A"})		
 	else:		
 		try:						
 			try:
 				response = eval("client." + method_to_invoke)
 			except:
 				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
-			
+						
 			if response_2level != None:							
 				count = response[response_1level][response_2level]
 			else:
@@ -110,21 +108,47 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].update({region_name:count})
-			dict[common_name]['Global-Total'] += count
-			#return count
+			dict[common_name]['Global-Total'] += count			
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
 			logging.debug("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
-			logging.debug("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
-			#return 0		
+			logging.debug("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)			
+
+def get_s3_count(common_name): # this needs to be treated differently
+	client = boto3.client('s3')
+	
+	names = []
+	response = client.list_buckets()		
+	
+	for i in response['Buckets']:
+		names.append(i['Name'])
+
+	for i in names:
+		location = client.get_bucket_location(Bucket=i)['LocationConstraint']
+		if location == None:
+			if dict[common_name].get('us-east-1') == None:
+				dict[common_name].update({'us-east-1':1})			
+			else:
+				dict[common_name].update({'us-east-1':dict[common_name].get('us-east-1')+1})
+		else:
+			if dict[common_name].get(location) == None:
+				dict[common_name].update({location:1})
+			else:
+				dict[common_name].update({location:dict[common_name].get(location)+1})			
+		dict[common_name]['Global-Total'] += 1
 
 if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
 		logging.debug("Main    : create and start thread %d.", index)		
 		dict[service[1]] = {'ServiceName':service[1],'Global-Total':0}		
+		
+		if service[0] == "s3":
+			get_s3_count(service[1])
+			break
+
 		for region in allRegions:
-			if service[3] == True:
+			if service[3] == True: # One pass for global services
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
 				threads.append(x)
 				x.start()				
