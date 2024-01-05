@@ -103,16 +103,12 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				response = eval("client." + method_to_invoke)
 			except:
 				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
-
-			logging.info("Service: %s, Region: %s, RL1: %s, RL2: %s", common_name, region_name, response_1level, response_2level)
-			if response_2level != None:				
-				logging.info("Response is not none")
+			
+			if response_2level != None:							
 				count = response[response_1level][response_2level]
 			else:
-			#if response_1level in response:
 				count = len(response[response_1level])
-			#else:
-			#	count = response[response_1level]
+				
 			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)			
 			dict[common_name] = []
 			dict[common_name].append({region_name:count})
