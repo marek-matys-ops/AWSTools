@@ -106,6 +106,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 
 			logging.info("Service: %s, Region: %s, RL1: %s, RL2: %s", common_name, region_name, response_1level, response_2level)
 			if response_2level != None:				
+				log.info("Response is not none")
 				count = response[response_1level][response_2level]
 			else:
 			#if response_1level in response:
@@ -119,7 +120,6 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
 			logging.info("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
-
 			logging.info("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
 			#return 0		
 
