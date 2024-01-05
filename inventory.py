@@ -138,6 +138,14 @@ if __name__ == "__main__":
 		thread.join()		
 		logging.debug("Main    : thread %d done", index)
 
+with open('output.csv', 'w', newline='') as csvfile:
+	fieldnames = dict.values().keys() #
+	#['first_name', 'last_name']
+	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+	writer.writeheader()	
+	for i in dict:
+		writer.writerow(i)
+    
 print(dict)
 
 
