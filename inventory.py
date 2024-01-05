@@ -65,12 +65,12 @@ def get_client(service_name,region_name):
 		return None
 # service_name, Region, is_global, response_name
 services = [	
-	["ec2", "EC2-Instances", "describe_instances()", False, "Reservations"],
+	["ec2", "EC2-Instances", "describe_instances()", False, "Reservations",None],
 	# ["s3", "S3", "list_buckets()", False, "Buckets"],
-	["ec2", "EC2-VPC", "describe_vpcs()", False, "Vpcs"],
-	["ec2", "EC2-VPN", "describe_vpn_connections()", False, "VpnConnections"],
-	["ec2", "EC2-SUBNETS", "describe_subnets()", False, "Subnets"],
-	["ec2", "EC2-SG", "describe_security_groups()", False, "SecurityGroups"],
+	["ec2", "EC2-VPC", "describe_vpcs()", False, "Vpcs",None],
+	["ec2", "EC2-VPN", "describe_vpn_connections()", False, "VpnConnections",None],
+	["ec2", "EC2-SUBNETS", "describe_subnets()", False, "Subnets",None],
+	["ec2", "EC2-SG", "describe_security_groups()", False, "SecurityGroups",None],
 	# ["r53", "R53", "get_hosted_zone_count()", True, "HostedZoneCount"],
 	# ["acm", "ACM", "list_certificates()", False, "CertificateSummaryList"],
 	["apigatewayv2", "API_GW_HTTP", "get_apis()", False, "Items",None],
