@@ -92,15 +92,14 @@ services = [
 
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None,**kwargs):
 	client = get_client(service_name,region_name)
+	logging.info("Processing Service: %s, Region: %s", common_name, region_name)
 	if client == None:
 		dict[common_name].update({region_name:"N/A"})		
-
 	# response = client.get_servers()
 	# results = response["serverList"]
 	# while "NextToken" in response:
     # response = client.get_servers(NextToken=response["NextToken"])
     # results.extend(response["serverList"]) # 4 na 5
-
 	else:										
 		try:			
 			response = eval("client." + method_to_invoke)
