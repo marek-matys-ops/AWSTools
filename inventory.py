@@ -110,7 +110,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = len(response[response_1level])
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
-			dict[common_name].append({region_name:count})
+			dict[common_name].update({region_name:count})			
 			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
 		logging.debug("Main    : create and start thread %d.", index)		
-		dict[service[1]] = []
+		dict[service[0]] = {'ServiceName':service[1],'Global-Total':0}
 		for region in allRegions:
 			if service[3] == True:
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
@@ -145,7 +145,7 @@ with open('output.csv', 'w', newline='') as csvfile:
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
 	for i in dict:
-		print("Dict[i]:{0} i:{1} Dict[i][0]:{2})".format(dict[i],i,dict[i][0]))		
+		print( "Dict[i]:{0} i:{1}".format(dict[i],i) )
 		#writer.writerow({'ServiceName':i,'Global-Total':0}.update(dict[i][0]))
     
 print(dict)
