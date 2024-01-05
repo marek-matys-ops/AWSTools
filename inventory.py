@@ -143,7 +143,8 @@ with open('output.csv', 'w', newline='') as csvfile:
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
 	for i in dict:
-		writer.writerow([i] + dict[i])
+		print("Dict[i]:{0} i:{1}".format(dict[i],i))		
+		writer.writerow(dict[i])
     
 print(dict)
 
