@@ -140,6 +140,7 @@ if __name__ == "__main__":
 
 with open('output.csv', 'w', newline='') as csvfile:
 	fieldnames = [['ServiceName','Global'] + allRegions]
+	print("Header:", fieldnames)
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
 	for i in dict:
