@@ -105,7 +105,8 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
 
 			if response_2level != None:
-				count = int(response[response_1level][response_2level])
+				log.info("Service: %s, Region: %s, Count: %s", common_name, region_name, response[response_1level][response_2level])
+				count = response[response_1level][response_2level]
 			else:
 			#if response_1level in response:
 				count = len(response[response_1level])
