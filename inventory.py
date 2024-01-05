@@ -111,6 +111,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[service_name].update({region_name:count})
+			dict[service_name]['Global-Total'] += count
 			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -122,12 +123,12 @@ if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
 		logging.debug("Main    : create and start thread %d.", index)		
-		dict[service[0]] = {'ServiceName':service[1],'Global-Total':0}
+		dict[service[0]] = {'ServiceName':service[1],'Global-Total':0}		
 		for region in allRegions:
 			if service[3] == True:
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
 				threads.append(x)
-				x.start()
+				x.start()				
 				break
 			else:
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4], service[5]))
