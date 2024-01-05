@@ -139,7 +139,7 @@ if __name__ == "__main__":
 		logging.debug("Main    : thread %d done", index)
 
 with open('output.csv', 'w', newline='') as csvfile:
-	fieldnames = [['ServiceName','Global'] + allRegions]
+	fieldnames = ['ServiceName','Global' + allRegions]
 	print("Header:", fieldnames)
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
