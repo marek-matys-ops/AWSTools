@@ -76,7 +76,7 @@ services = [
 	 ["apigw_http", "API_GW_HTTP", "get_apis()", False, "Items",None],
 	 ["apigw_edge", "API_GW_EDGE", "get_rest_apis()", False, "items",None],
 	 ["lambda", "LAMBDA", "list_functions()", False, "Functions",None],
-	 ["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", True, "IdentityPools"],None,
+	 ["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", True, "IdentityPools",None],
 	 ["cognito-idp", "COGNITO-idp", "list_user_pools(MaxResults=60)", True, "UserPools",None],
 	 ["ecs", "ECS", "list_clusters()", False, "clusterArns",None],
 	 ["ecr", "ECR", "describe_repositories()", False, "repositories",None],
