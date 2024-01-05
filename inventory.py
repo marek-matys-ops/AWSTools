@@ -76,17 +76,17 @@ services = [
 	#  ["apigw_http", "API_GW_HTTP", "get_apis()", False, "Items",None],
 	#  ["apigw_edge", "API_GW_EDGE", "get_rest_apis()", False, "items",None],
 	#  ["lambda", "LAMBDA", "list_functions()", False, "Functions",None],
-	#  ["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", True, "IdentityPools",None],
-	#  ["cognito-idp", "COGNITO-idp", "list_user_pools(MaxResults=60)", True, "UserPools",None],
-	#  ["ecs", "ECS", "list_clusters()", False, "clusterArns",None],
-	#  ["ecr", "ECR", "describe_repositories()", False, "repositories",None],
-	#  ["elb", "ELB", "describe_load_balancers()", False, "LoadBalancerDescriptions",None],
-	#  ["elbv2", "ELBv2", "describe_load_balancers()", False, "LoadBalancers",None],
-	#  ["elbeanstalk-env", "ELBEANSTALK-env", "describe_environments()", False, "Environments",None],
-	#  ["elbeanstalk-app", "ELBEANSTALK-app", "describe_applications()", False, "Applications",None],
-	#  ["kms", "KMS", "list_keys()", False, "Keys",None],	
-	#  ["rds", "RDS", "describe_db_instances()", False, "DBInstances",None],
-	 ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList",None],
+	["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", True, "IdentityPools",None],
+	["cognito-idp", "COGNITO-idp", "list_user_pools(MaxResults=60)", True, "UserPools",None],
+	["ecs", "ECS", "list_clusters()", False, "clusterArns",None],
+	["ecr", "ECR", "describe_repositories()", False, "repositories",None],
+	["elb", "ELB", "describe_load_balancers()", False, "LoadBalancerDescriptions",None],
+	["elbv2", "ELBv2", "describe_load_balancers()", False, "LoadBalancers",None],
+	["elbeanstalk-env", "ELBEANSTALK-env", "describe_environments()", False, "Environments",None],
+	["elbeanstalk-app", "ELBEANSTALK-app", "describe_applications()", False, "Applications",None],
+	["kms", "KMS", "list_keys()", False, "Keys",None],	
+	["rds", "RDS", "describe_db_instances()", False, "DBInstances",None],
+	["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList",None],
 	["sns", "SNS", "list_topics()", False, "Topics",None],
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
@@ -94,10 +94,9 @@ services = [
 def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None):
 	client = get_client(service_name,region_name)
 	if client == None:
-		return 0
-	else:
-		#if is_global:
-		#	client = get_client(service_name, "us-east-1")
+		dict[service_name].update({region_name:"N/A"})
+		#dict[service_name]['Global-Total'] += count
+	else:		
 		try:						
 			try:
 				response = eval("client." + method_to_invoke)
