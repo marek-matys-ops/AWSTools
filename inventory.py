@@ -108,6 +108,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = response[response_1level][response_2level]
 			else:
 				count = len(response[response_1level])
+			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].append({region_name:count})
 			#return count
@@ -145,8 +146,7 @@ with open('output.csv', 'w', newline='') as csvfile:
 	writer.writeheader()
 	for i in dict:
 		#print("Dict[i]:{0} i:{1} keys()".format(dict[i],i,dict[i].Keys()))		
-		writer.writerow({'ServiceName':i,'Global-Total':0}.update(dict[i]))
-				  #+dict[i])
+		writer.writerow({'ServiceName':i,'Global-Total':0}.update(dict[i][0]))
     
 print(dict)
 
