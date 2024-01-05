@@ -145,7 +145,7 @@ with open('output.csv', 'w', newline='') as csvfile:
 	writer.writeheader()
 	for i in dict:
 		#print("Dict[i]:{0} i:{1} keys()".format(dict[i],i,dict[i].Keys()))		
-		writer.writerow([i] + [0] + dict[i])
+		writer.writerow({'ServiceName':i,'Global-Total':0}+dict[i])
     
 print(dict)
 
