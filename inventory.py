@@ -110,7 +110,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = len(response[response_1level])
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
-			dict[common_name].update({region_name:count})			
+			dict[service_name].update({region_name:count})
 			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
