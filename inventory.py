@@ -87,7 +87,7 @@ services = [
 	# ["kms", "KMS", "list_keys()", False, "Keys"],	
 	# ["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	# ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
-	["sns", "SNS", "list_topics()", False, "Topics"],
+	["sns", "SNS", "list_topics()", False, "Topics",None],
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
 
