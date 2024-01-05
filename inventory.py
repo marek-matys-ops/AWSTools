@@ -114,8 +114,10 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			logging.debug("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
 			logging.debug("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)			
 
-def get_s3_count(common_name): # this needs to be treated differently
-	client = boto3.client('s3')
+def get_s3_count(service_name,common_name,region_name): # this needs to be treated differently
+	client = get_client(service_name,'us-east-1')
+	if client == None:
+		dict[common_name].update({region_name:"N/A"})		
 	
 	names = []
 	response = client.list_buckets()		
@@ -144,8 +146,8 @@ if __name__ == "__main__":
 		dict[service[1]] = {'ServiceName':service[1],'Global-Total':0}		
 		
 		if service[0] == "s3":
-			get_s3_count(service[1])
-			break
+			get_s3_count(service_name=service[0],common_name=service[1],region_name="us-east-1")
+			continue
 
 		for region in allRegions:
 			if service[3] == True: # One pass for global services
