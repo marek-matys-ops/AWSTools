@@ -87,7 +87,7 @@ services = [
 	# ["kms", "KMS", "list_keys()", False, "Keys"],	
 	# ["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	# ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
-	# ["sns", "SNS", "list_topics()", False, "Topics"],
+	["sns", "SNS", "list_topics()", False, "Topics"],
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
 
@@ -112,13 +112,15 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			#else:
 			#	count = response[response_1level]
 			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)			
-			return count
+			dict[common_name] = []
+			dict[common_name].append({region_name:count})
+			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
 			logging.info("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
 
 			logging.info("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
-			return 0		
+			#return 0		
 
 if __name__ == "__main__":
 	threads = list()
@@ -137,8 +139,7 @@ if __name__ == "__main__":
 
 	for index, thread in enumerate(threads):
 		logging.info("Main    : before joining thread %d.", index)
-		x = thread.join()
-		print("Return value: ", x)
+		thread.join()		
 		logging.info("Main    : thread %d done", index)
 
 print(dict)
