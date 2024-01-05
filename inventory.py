@@ -108,19 +108,19 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = response[response_1level][response_2level]
 			else:
 				count = len(response[response_1level])
-			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
+			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].append({region_name:count})
 			#return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
-			logging.info("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
-			logging.info("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
+			logging.debug("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
+			logging.debug("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)
 			#return 0		
 
 if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
-		logging.info("Main    : create and start thread %d.", index)		
+		logging.debug("Main    : create and start thread %d.", index)		
 		dict[service[1]] = []
 		for region in allRegions:
 			if service[3] == True:
@@ -134,9 +134,9 @@ if __name__ == "__main__":
 				x.start()
 
 	for index, thread in enumerate(threads):
-		logging.info("Main    : before joining thread %d.", index)
+		logging.debug("Main    : before joining thread %d.", index)
 		thread.join()		
-		logging.info("Main    : thread %d done", index)
+		logging.debug("Main    : thread %d done", index)
 
 print(dict)
 
