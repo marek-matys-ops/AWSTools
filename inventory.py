@@ -88,10 +88,10 @@ services = [
 	# ["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	# ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
 	# ["sns", "SNS", "list_topics()", False, "Topics"],
-	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList"],
+	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
 
-def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_name):
+def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None):
 	client = get_client(service_name,region_name)
 	if client == None:
 		return 0
@@ -102,14 +102,16 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			try:
 				response = eval("client." + method_to_invoke)
 			except:
-				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")			
-			
-			if response_name in response:
-				count = len(response[response_name])
+				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
+
+			if response_2level != None:
+				count = response[response_1level][response_2level]
 			else:
-				count = response[response_name]
-			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)
-			dict[common_name] = {region_name: count}
+			#if response_1level in response:
+				count = len(response[response_1level])
+			#else:
+			#	count = response[response_1level]
+			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)			
 			return count
 		except Exception as e:
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -135,7 +137,8 @@ if __name__ == "__main__":
 
 	for index, thread in enumerate(threads):
 		logging.info("Main    : before joining thread %d.", index)
-		thread.join()
+		x = thread.join()
+		print("Return value: ", x)
 		logging.info("Main    : thread %d done", index)
 
 print(dict)
