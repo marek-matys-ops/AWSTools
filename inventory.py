@@ -144,8 +144,8 @@ with open('output.csv', 'w', newline='') as csvfile:
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
 	for i in dict:
-		print("Dict[i]:{0} i:{1} keys()".format(dict[i],i,dict[i].Keys()))		
-		writer.writerow(dict[i].Keys())
+		#print("Dict[i]:{0} i:{1} keys()".format(dict[i],i,dict[i].Keys()))		
+		writer.writerow(i)
     
 print(dict)
 
