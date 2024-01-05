@@ -87,7 +87,7 @@ services = [
 	# ["kms", "KMS", "list_keys()", False, "Keys"],	
 	# ["rds", "RDS", "describe_db_instances()", False, "DBInstances"],
 	# ["secretsmanager", "SECRETSMANAGER", "list_secrets()", False, "SecretList"],
-	["sns", "SNS", "list_topics()", False, "Topics"],
+	["sns", "SNS", "list_topics()", False, "Topics", ""],
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
 
@@ -128,12 +128,12 @@ if __name__ == "__main__":
 		logging.info("Main    : create and start thread %d.", index)		
 		for region in allRegions:
 			if service[3] == True:
-				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4],service[5]))				
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
 				threads.append(x)
 				x.start()
 				break
 			else:
-				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4],service[5]))
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4], service[5]))
 				threads.append(x)
 				x.start()
 
