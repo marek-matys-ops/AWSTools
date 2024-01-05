@@ -108,9 +108,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count = response[response_1level][response_2level]
 			else:
 				count = len(response[response_1level])
-				
-			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)			
-			dict[common_name] = []
+			logging.info("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].append({region_name:count})
 			#return count
 		except Exception as e:
@@ -123,6 +121,7 @@ if __name__ == "__main__":
 	threads = list()
 	for index, service in enumerate(services):
 		logging.info("Main    : create and start thread %d.", index)		
+		dict[service[1]] = []
 		for region in allRegions:
 			if service[3] == True:
 				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5]))				
