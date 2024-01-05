@@ -70,12 +70,12 @@ services = [
 	["ec2", "EC2-VPN", "describe_vpn_connections()", False, "VpnConnections",None],
 	["ec2", "EC2-SUBNETS", "describe_subnets()", False, "Subnets",None],
 	["ec2", "EC2-SG", "describe_security_groups()", False, "SecurityGroups",None],
-	# ["r53", "R53", "get_hosted_zone_count()", True, "HostedZoneCount"],
-	# ["acm", "ACM", "list_certificates()", False, "CertificateSummaryList"],
+	["r53", "R53", "get_hosted_zone_count()", True, "HostedZoneCount"],
+	["acm", "ACM", "list_certificates()", False, "CertificateSummaryList"],
 	["apigatewayv2", "API_GW_HTTP", "get_apis()", False, "Items",None],
 	["apigateway", "API_GW_EDGE", "get_rest_apis()", False, "items",None],
-	#  ["lambda", "LAMBDA", "list_functions()", False, "Functions",None],
-	["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", False, "IdentityPools",None],
+	["lambda", "LAMBDA", "list_functions()", False, "Functions",None],
+	["cognito-identity", "COGNITO-identity", "list_identity_pools(MaxResults=60)", False, "IdentityPools",None, {"next_token_name":"NextToken"}],
 	["cognito-idp", "COGNITO-idp", "list_user_pools(MaxResults=60)", False, "UserPools",None],
 	["ecs", "ECS", "list_clusters()", False, "clusterArns",None],
 	["ecr", "ECR", "describe_repositories()", False, "repositories",None],
@@ -90,21 +90,35 @@ services = [
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity"],
 ]  	
 
-def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None):
+def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None,**kwargs):
 	client = get_client(service_name,region_name)
 	if client == None:
 		dict[common_name].update({region_name:"N/A"})		
-	else:		
-		try:						
-			try:
-				response = eval("client." + method_to_invoke)
-			except:
-				response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
-						
-			if response_2level != None:							
-				count = response[response_1level][response_2level]
+
+	# response = client.get_servers()
+	# results = response["serverList"]
+	# while "NextToken" in response:
+    # response = client.get_servers(NextToken=response["NextToken"])
+    # results.extend(response["serverList"]) # 4 na 5
+
+	else:										
+		try:			
+			response = eval("client." + method_to_invoke)
+			if response_2level != None:
+				count 	= response[response_1level][response_2level] # no need to paginate				
 			else:
-				count = len(response[response_1level])
+				results = response[response_1level]
+				if "next_token_name" in kwargs:
+					next_token_name = kwargs['next_token_name']
+					method_to_invoke = method_to_invoke[:-1] + "," + next_token_name + "=" + "response['"+next_token_name+"'])"
+					while kwargs['next_token_name'] in response:
+						response = eval("client." + method_to_invoke)
+						results.extend(response[response_1level])
+				count = len(results)
+		except:
+			response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
+
+		try:
 			count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].update({region_name:count})
