@@ -99,7 +99,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 		try:			
 			response = eval("client." + method_to_invoke)
 			if response_2level != None:
-				count 	= response[response_1level][response_2level] 	# no need to paginate				
+				count 	= response[response_1level][response_2level] 	# no need to paginate
 			else:
 				results = response[response_1level]
 				if "next_token_name" in kwargs: 						# this api uses pagination
@@ -116,9 +116,10 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				
 		except:
 			response = eval("client." + method_to_invoke + ".get('ResponseMetadata')")
+			print("Exception response:", response)
 
 		try:
-			count = random.randint(1, 10)
+			#count = random.randint(1, 10)
 			logging.debug("Service: %s, Region: %s, Count: %s", common_name, region_name, count)						
 			dict[common_name].update({region_name:count})
 			dict[common_name]['Global-Total'] += count			
@@ -127,7 +128,7 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 			logging.debug("Exception: %s, %s, %s", exc_type, exc_obj, exc_tb.tb_lineno)			
 			logging.debug("Except. Service: %s, Region: %s, Count: %s", common_name, region_name, 0)			
 
-def get_s3_count(service_name,common_name,region_name): # this needs to be treated differently
+def get_s3_count(service_name,common_name,region_name): 			# this needs to be treated differently
 	client = get_client(service_name,'us-east-1')
 	if client == None:
 		dict[common_name].update({region_name:"N/A"})		
