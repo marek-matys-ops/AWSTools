@@ -90,7 +90,7 @@ services = [
 	# ["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity",{}],
 ]  	
 
-def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None, args=None):
+def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None, kwargs=None):
 	client = get_client(service_name,region_name)
 	logging.info("Processing Service: %s, Region: %s", common_name, region_name)
 	if client == None:
@@ -107,10 +107,10 @@ def get_service_count(service_name, common_name, region_name, method_to_invoke, 
 				count 	= response[response_1level][response_2level] # no need to paginate				
 			else:
 				results = response[response_1level]
-				if "next_token_name" in args:
-					next_token_name = args['next_token_name']
+				if "next_token_name" in kwargs: # this api uses pagination
+					next_token_name = kwargs['next_token_name'] # get the next token name, it differs from service to service
 					method_to_invoke = method_to_invoke[:-1] + "," + next_token_name + "=" + "response['"+next_token_name+"'])"
-					while args['next_token_name'] in response:
+					while kwargs['next_token_name'] in response:
 						response = eval("client." + method_to_invoke)
 						results.extend(response[response_1level])
 				count = len(results)
