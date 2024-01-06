@@ -90,7 +90,7 @@ services = [
 	["cloudfront", "CLOUDFRONT", "list_distributions()", True, "DistributionList","Quantity",{}],
 ]  	
 
-def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None,**kwargs):
+def get_service_count(service_name, common_name, region_name, method_to_invoke, is_global, response_1level, response_2level=None, **kwargs):
 	client = get_client(service_name,region_name)
 	logging.info("Processing Service: %s, Region: %s", common_name, region_name)
 	if client == None:
@@ -164,12 +164,12 @@ if __name__ == "__main__":
 
 		for region in allRegions:
 			if service[3] == True: # One pass for global services
-				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5],service[6]))				
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], "us-east-1", service[2], service[3], service[4], service[5], **service[6]))				
 				threads.append(x)
 				x.start()				
 				break
 			else:
-				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4], service[5],service[6]))
+				x = threading.Thread(target=get_service_count, args=(service[0], service[1], region, service[2], service[3], service[4], service[5], **service[6]))
 				threads.append(x)
 				x.start()
 
