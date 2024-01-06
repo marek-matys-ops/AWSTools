@@ -9,6 +9,7 @@ if __name__ == "__main__":
     mydict = {'c': 3, 'd': 4}
 
     myarr = [1,2,{'c': 3, 'd': 4}]
-    myMethod(1, 2, **myarr[2])
+    #myMethod(1, 2, **myarr[2])
+    myMethod(1, 2, **mydict)
     # print("Hello World!
 
